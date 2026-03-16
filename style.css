@@ -1125,7 +1125,7 @@ input, select, textarea { font-family: inherit; }
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 90dvh; /* fallback for modern browsers */
+  height: 95dvh; /* fallback for modern browsers */
   padding-bottom: env(safe-area-inset-bottom); /* <- adds padding for phone buttons */
   box-sizing: border-box;
 }
