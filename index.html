@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Blaze – Design Studio</title>
+  <link rel="icon" href="logo.jpg">
+<link rel="shortcut icon" href="logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+<div class="logo-icon">
+  <img src="logo.jpg" alt="Logo">
+</div>
+          <span class="logo-text">Blaze</span>
+        </div>
+        <div class="header-divider"></div>
+        <div class="doc-title-wrap">
+          <input class="doc-title" id="docTitle" value="Untitled Design" spellcheck="false">
+        </div>
+      </div>
+      <div class="header-center">
+        <button class="hbtn hbtn-ghost" id="undoBtn" title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></button>
+        <button class="hbtn hbtn-ghost" id="redoBtn" title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></button>
+      </div>
+      <div class="header-right">
+        <button class="hbtn hbtn-ghost" id="shareBtn" title="Share"><i class="fas fa-link"></i><span class="hbtn-label">Share</span></button>
+        <button class="hbtn hbtn-primary" id="downloadBtn"><i class="fas fa-download"></i><span class="hbtn-label">Export</span></button>
+      </div>
+    </header>
+
+    <div class="workspace">
+
+      <aside class="sidebar" id="sidebar">
+        <button class="tool-btn active" data-target="upload-panel" title="Upload">
+          <i class="fas fa-cloud-upload-alt"></i><span>Upload</span>
+        </button>
+        <button class="tool-btn" data-target="templates-panel" title="Templates">
+          <i class="fas fa-th-large"></i><span>Templates</span>
+        </button>
+        <button class="tool-btn" data-target="text-panel" title="Text">
+          <i class="fas fa-font"></i><span>Text</span>
+        </button>
+        <button class="tool-btn" data-target="elements-panel" title="Shapes">
+          <i class="fas fa-shapes"></i><span>Shapes</span>
+        </button>
+        <button class="tool-btn" data-target="draw-panel" title="Draw" id="drawToolBtn">
+          <i class="fas fa-pencil-alt"></i><span>Draw</span>
+        </button>
+        <div class="sidebar-divider"></div>
+        <button class="tool-btn" data-target="adjust-panel" title="Adjust">
+          <i class="fas fa-sliders-h"></i><span>Adjust</span>
+        </button>
+        <button class="tool-btn" data-target="ai-panel" title="AI">
+          <i class="fas fa-magic"></i><span>AI</span>
+        </button>
+        <button class="tool-btn" data-target="layers-panel" title="Layers" id="layersToolBtn">
+          <i class="fas fa-layer-group"></i><span>Layers</span>
+        </button>
+      </aside>
+
+      <div class="panel-drawer" id="sidePanel">
+        <div class="panel-header">
+          <span id="panelTitle">Upload</span>
+          <button class="panel-close" onclick="closePanel()"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div id="common-properties" class="common-props" style="display:none">
+          <div class="prop-row">
+            <label class="prop-label"><i class="fas fa-adjust"></i> Opacity</label>
+            <div class="prop-value-row">
+              <input type="range" class="slider" id="opacitySlider" min="0" max="1" step="0.01" value="1">
+              <span class="prop-badge" id="opacityVal">100%</span>
+            </div>
+          </div>
+          <div class="prop-section-title">Shadow</div>
+          <div class="prop-grid-4">
+            <div>
+              <div class="color-swatch-wrap"><input type="color" id="shadowColorInput" value="#000000"></div>
+              <div class="prop-micro">Color</div>
+            </div>
+            <div>
+              <input type="range" class="slider slider-sm" id="shadowBlurInput" min="0" max="50" value="0">
+              <div class="prop-micro">Blur</div>
+            </div>
+            <div>
+              <input type="range" class="slider slider-sm" id="shadowOffXInput" min="-50" max="50" value="0">
+              <div class="prop-micro">X</div>
+            </div>
+            <div>
+              <input type="range" class="slider slider-sm" id="shadowOffYInput" min="-50" max="50" value="0">
+              <div class="prop-micro">Y</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" id="upload-panel">
+          <div class="upload-dropzone" id="uploadDropzone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drop image here or</p>
+            <button class="pill-btn pill-primary" id="uploadBtn">Browse files</button>
+            <input type="file" id="imageUpload" accept="image/*" hidden>
+          </div>
+
+          <div class="section-title">Canvas Size</div>
+          <div class="preset-list">
+            <div class="preset-item" onclick="resizeCanvas(1280,720)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#ef4444,#991b1b)"><i class="fab fa-youtube"></i></div>
+              <div><b>YouTube</b><br><small>1280 × 720</small></div>
+            </div>
+            <div class="preset-item" onclick="resizeCanvas(1080,1080)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444,#be185d)"><i class="fab fa-instagram"></i></div>
+              <div><b>Instagram</b><br><small>1080 × 1080</small></div>
+            </div>
+            <div class="preset-item" onclick="resizeCanvas(1080,1920)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#0f172a,#06b6d4)"><i class="fab fa-tiktok"></i></div>
+              <div><b>Story / Reel</b><br><small>1080 × 1920</small></div>
+            </div>
+            <div class="preset-item" onclick="resizeCanvas(1200,630)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)"><i class="fab fa-facebook"></i></div>
+              <div><b>Facebook</b><br><small>1200 × 630</small></div>
+            </div>
+            <div class="preset-item" onclick="resizeCanvas(1500,500)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#60a5fa,#2563eb)"><i class="fab fa-twitter"></i></div>
+              <div><b>Twitter Banner</b><br><small>1500 × 500</small></div>
+            </div>
+            <div class="preset-item" onclick="resizeCanvas(800,600)">
+              <div class="preset-icon" style="background:linear-gradient(135deg,#a855f7,#6366f1)"><i class="fas fa-desktop"></i></div>
+              <div><b>Custom HD</b><br><small>800 × 600</small></div>
+            </div>
+          </div>
+          <div class="custom-size-row">
+            <input type="number" id="customW" placeholder="W" class="size-input" value="1280">
+            <span>×</span>
+            <input type="number" id="customH" placeholder="H" class="size-input" value="720">
+            <button class="pill-btn pill-primary" style="flex:1" onclick="resizeCanvas(+document.getElementById('customW').value||800,+document.getElementById('customH').value||600)">
+              <i class="fas fa-check"></i> Apply
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-body" id="templates-panel" style="display:none">
+          <div class="section-title">Social Media</div>
+          <div class="template-grid">
+            <div class="tmpl-card" onclick="loadTemplate('youtube')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#ef4444,#991b1b)"><i class="fab fa-youtube"></i></div>
+              <span>YouTube</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('instagram')">
+              <div class="tmpl-preview" style="background:linear-gradient(45deg,#f59e0b,#ef4444,#be185d)"><i class="fab fa-instagram"></i></div>
+              <span>Instagram</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('tiktok')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#0f172a,#06b6d4,#e11d48)"><i class="fab fa-tiktok"></i></div>
+              <span>TikTok</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('business')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#2563eb,#4338ca)"><i class="fas fa-briefcase"></i></div>
+              <span>Business</span>
+            </div>
+          </div>
+          <div class="section-title" style="margin-top:1.5rem">Backgrounds</div>
+          <div class="template-grid">
+            <div class="tmpl-card" onclick="loadTemplate('gradient1')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#6366f1,#a855f7)"></div>
+              <span>Purple</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('gradient2')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"></div>
+              <span>Sunset</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('gradient3')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)"></div>
+              <span>Ocean</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('gradient4')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#10b981,#059669)"></div>
+              <span>Emerald</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('gradient5')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"></div>
+              <span>Rose</span>
+            </div>
+            <div class="tmpl-card" onclick="loadTemplate('gradient6')">
+              <div class="tmpl-preview" style="background:linear-gradient(135deg,#0f172a,#1e293b)"></div>
+              <span>Dark</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" id="text-panel" style="display:none">
+          <div class="text-add-group">
+            <button class="text-add-btn text-add-heading" onclick="addText('Heading',72,true)">Add a heading</button>
+            <button class="text-add-btn text-add-sub" onclick="addText('Subheading',42)">Add a subheading</button>
+            <button class="text-add-btn text-add-body" onclick="addText('Body text',24)">Add body text</button>
+          </div>
+
+          <div id="text-properties" style="display:none">
+            <div class="section-title">Font</div>
+            <div class="prop-row">
+              <select id="fontSelect" class="full-select">
+                <option value="Syne">Syne</option>
+                <option value="DM Sans">DM Sans</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Arial">Arial</option>
+                <option value="Impact">Impact</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Trebuchet MS">Trebuchet MS</option>
+              </select>
+            </div>
+            <div class="prop-row">
+              <label class="prop-label">Size</label>
+              <div class="prop-value-row">
+                <input type="range" class="slider" id="fontSizeSlider" min="8" max="300" value="40">
+                <span class="prop-badge" id="fontSizeVal">40</span>
+              </div>
+            </div>
+            <div class="prop-row">
+              <label class="prop-label">Color</label>
+              <div class="color-swatch-wrap"><input type="color" id="textColorInput" value="#1E293B"></div>
+            </div>
+            <div class="color-palette" id="textColorPalette"></div>
+
+            <div class="section-title" style="margin-top:1rem">Gradient Text</div>
+            <div class="toggle-row">
+              <span>Enable gradient</span>
+              <div class="toggle-pill" id="gradientToggle" onclick="toggleGradient()"></div>
+            </div>
+            <div id="gradient-controls" style="display:none">
+              <div class="gradient-swatches" id="gradientSwatches"></div>
+              <div class="prop-row-2">
+                <div><div class="color-swatch-wrap"><input type="color" id="gradColor1" value="#2563EB" onchange="updateGradient()"></div><div class="prop-micro">Start</div></div>
+                <div><div class="color-swatch-wrap"><input type="color" id="gradColor2" value="#F59E0B" onchange="updateGradient()"></div><div class="prop-micro">End</div></div>
+              </div>
+            </div>
+
+            <div class="section-title" style="margin-top:1rem">3D Effect</div>
+            <div class="toggle-row">
+              <span>Enable 3D Shadow</span>
+              <div class="toggle-pill" id="shadow3dToggle" onclick="toggle3DShadow()"></div>
+            </div>
+            <div id="shadow3d-controls" style="display:none">
+              <div class="prop-row">
+                <label class="prop-label">Depth</label>
+                <input type="range" class="slider" id="shadow3dDepth" min="0" max="20" value="5" oninput="update3DShadow()">
+              </div>
+              <div class="prop-row">
+                <label class="prop-label">Shadow Color</label>
+                <div class="color-swatch-wrap"><input type="color" id="shadow3dColor" value="#0F172A" onchange="update3DShadow()"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" id="elements-panel" style="display:none">
+          <div class="section-title">Basic</div>
+          <div class="shape-grid">
+            <button class="shape-tile" onclick="addShape('rectangle')" title="Rectangle"><svg viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="24" rx="2" fill="currentColor"/></svg><span>Rect</span></button>
+            <button class="shape-tile" onclick="addShape('circle')" title="Circle"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="currentColor"/></svg><span>Circle</span></button>
+            <button class="shape-tile" onclick="addShape('triangle')" title="Triangle"><svg viewBox="0 0 40 40"><polygon points="20,4 36,36 4,36" fill="currentColor"/></svg><span>Triangle</span></button>
+            <button class="shape-tile" onclick="addShape('line')" title="Line"><svg viewBox="0 0 40 40"><line x1="4" y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Line</span></button>
+            <button class="shape-tile" onclick="addShape('star')" title="Star"><svg viewBox="0 0 40 40"><polygon points="20,4 24.7,14.9 36.7,15.6 27.8,23.5 30.7,35.2 20,29 9.3,35.2 12.2,23.5 3.3,15.6 15.3,14.9" fill="currentColor"/></svg><span>Star</span></button>
+            <button class="shape-tile" onclick="addShape('heart')" title="Heart"><svg viewBox="0 0 40 40"><path d="M20 34 C20 34 4 24 4 13.5 C4 8.8 7.8 5 12.5 5 C15.6 5 18.3 6.7 20 9.2 C21.7 6.7 24.4 5 27.5 5 C32.2 5 36 8.8 36 13.5 C36 24 20 34 20 34Z" fill="currentColor"/></svg><span>Heart</span></button>
+          </div>
+
+          <div class="section-title" style="margin-top:1.25rem">Geometric</div>
+          <div class="shape-grid">
+            <button class="shape-tile" onclick="addShape('diamond')" title="Diamond"><svg viewBox="0 0 40 40"><polygon points="20,4 36,20 20,36 4,20" fill="currentColor"/></svg><span>Diamond</span></button>
+            <button class="shape-tile" onclick="addShape('pentagon')" title="Pentagon"><svg viewBox="0 0 40 40"><polygon points="20,4 36,15.3 30,33.7 10,33.7 4,15.3" fill="currentColor"/></svg><span>Pentagon</span></button>
+            <button class="shape-tile" onclick="addShape('hexagon')" title="Hexagon"><svg viewBox="0 0 40 40"><polygon points="20,4 34,12 34,28 20,36 6,28 6,12" fill="currentColor"/></svg><span>Hexagon</span></button>
+            <button class="shape-tile" onclick="addShape('cross')" title="Cross"><svg viewBox="0 0 40 40"><path d="M14,4H26V14H36V26H26V36H14V26H4V14H14Z" fill="currentColor"/></svg><span>Cross</span></button>
+            <button class="shape-tile" onclick="addShape('arrow')" title="Arrow"><svg viewBox="0 0 40 40"><polygon points="4,14 26,14 26,8 36,20 26,32 26,26 4,26" fill="currentColor"/></svg><span>Arrow</span></button>
+            <button class="shape-tile" onclick="addShape('speechbubble')" title="Speech Bubble"><svg viewBox="0 0 40 40"><path d="M4,4H36V28H16L8,36V28H4Z" rx="3" fill="currentColor"/></svg><span>Bubble</span></button>
+          </div>
+
+          <div id="shape-properties" style="display:none;margin-top:1rem">
+            <div class="section-title">Shape Style</div>
+            <div class="prop-row">
+              <label class="prop-label">Fill</label>
+              <div class="color-swatch-wrap"><input type="color" id="shapeFill" value="#2563EB" oninput="updateSelectedShape()"></div>
+            </div>
+            <div class="color-palette" id="shapeFillPalette"></div>
+            <div class="prop-row" style="margin-top:.75rem">
+              <label class="prop-label">Stroke</label>
+              <div class="color-swatch-wrap"><input type="color" id="shapeStroke" value="#000000" oninput="updateSelectedShape()"></div>
+              <input type="range" class="slider" id="shapeStrokeWidth" min="0" max="20" value="0" oninput="updateSelectedShape()" style="flex:1;margin-left:.75rem">
+            </div>
+            <div class="prop-row">
+              <label class="prop-label">Radius</label>
+              <input type="range" class="slider" id="borderRadiusSlider" min="0" max="100" value="0" oninput="updateShapeBorderRadius()">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" id="draw-panel" style="display:none">
+          <div class="draw-mode-badge" id="drawModeBadge">
+            <i class="fas fa-pencil-alt"></i> Draw mode <span>ON</span>
+          </div>
+
+          <div class="section-title">Brush</div>
+          <div class="brush-type-grid">
+            <button class="brush-type-btn active" data-brush="pencil" onclick="setBrushType(this)">
+              <i class="fas fa-pencil-alt"></i><span>Pencil</span>
+            </button>
+            <button class="brush-type-btn" data-brush="marker" onclick="setBrushType(this)">
+              <i class="fas fa-highlighter"></i><span>Marker</span>
+            </button>
+            <button class="brush-type-btn" data-brush="spray" onclick="setBrushType(this)">
+              <i class="fas fa-spray-can"></i><span>Spray</span>
+            </button>
+            <button class="brush-type-btn" data-brush="eraser" onclick="setBrushType(this)">
+              <i class="fas fa-eraser"></i><span>Eraser</span>
+            </button>
+          </div>
+
+          <div class="prop-row" style="margin-top:1rem">
+            <label class="prop-label">Size</label>
+            <div class="prop-value-row">
+              <input type="range" class="slider" id="brushSizeSlider" min="1" max="80" value="8">
+              <span class="prop-badge" id="brushSizeVal">8px</span>
+            </div>
+          </div>
+          <div class="prop-row">
+            <label class="prop-label">Opacity</label>
+            <div class="prop-value-row">
+              <input type="range" class="slider" id="brushOpacitySlider" min="0.05" max="1" step="0.05" value="1">
+              <span class="prop-badge" id="brushOpacityVal">100%</span>
+            </div>
+          </div>
+          <div class="prop-row">
+            <label class="prop-label">Color</label>
+            <div class="color-swatch-wrap"><input type="color" id="brushColorInput" value="#000000"></div>
+          </div>
+          <div class="color-palette" id="brushColorPalette"></div>
+          <div class="brush-preview-wrap">
+            <canvas id="brushPreviewCanvas" width="200" height="60"></canvas>
+          </div>
+          <button class="pill-btn pill-danger w-full" style="margin-top:1rem" onclick="clearDrawings()"><i class="fas fa-trash"></i> Clear All Drawings</button>
+        </div>
+
+        <div class="panel-body" id="adjust-panel" style="display:none">
+          <div class="section-title">Canvas Background</div>
+          <div class="prop-row">
+            <label class="prop-label">BG Color</label>
+            <div class="color-swatch-wrap"><input type="color" id="bgColorInput" value="#ffffff" oninput="state.backgroundColor=this.value;render()"></div>
+          </div>
+          <div class="toggle-row" style="margin-top:.5rem">
+            <span>Transparent BG</span>
+            <div class="toggle-pill" id="transparentBgToggle"></div>
+          </div>
+
+          <div class="section-title" style="margin-top:1.5rem">Image Filters</div>
+          <div class="prop-row">
+            <label class="prop-label">Brightness</label>
+            <input type="range" class="slider" id="brightness" min="0" max="200" value="100">
+          </div>
+          <div class="prop-row">
+            <label class="prop-label">Contrast</label>
+            <input type="range" class="slider" id="contrast" min="0" max="200" value="100">
+          </div>
+          <div class="prop-row">
+            <label class="prop-label">Saturation</label>
+            <input type="range" class="slider" id="saturation" min="0" max="200" value="100">
+          </div>
+          <div class="prop-row">
+            <label class="prop-label">Blur</label>
+            <input type="range" class="slider" id="blur" min="0" max="10" value="0" step="0.5">
+          </div>
+
+          <div class="section-title" style="margin-top:1.5rem">Export</div>
+          <select id="exportFormat" class="full-select">
+            <option value="png">PNG (High Quality)</option>
+            <option value="jpg">JPG (Smaller Size)</option>
+            <option value="webp">WebP (Modern)</option>
+          </select>
+          <button class="pill-btn pill-primary w-full" style="margin-top:1rem" id="downloadBtn2"><i class="fas fa-download"></i> Download</button>
+        </div>
+
+        <div class="panel-body" id="ai-panel" style="display:none">
+          <div class="ai-badge"><i class="fas fa-robot"></i> AI Powered Tools</div>
+
+          <div class="section-title" style="margin-top:1rem">Background Remover</div>
+          <p class="hint-text">Select an image layer first, then remove background with AI.</p>
+          <button class="pill-btn pill-secondary w-full" id="removeBgBtn" onclick="removeBackgroundAI()">
+            <i class="fas fa-eraser"></i> Remove Background
+          </button>
+
+          <div class="section-title" style="margin-top:1.5rem">AI Image Generator</div>
+          <textarea id="aiPrompt" class="full-textarea" placeholder="A futuristic city at sunset with flying cars…" rows="3"></textarea>
+          <div class="ai-styles-row">
+            <button class="ai-style-chip active" data-style="">Default</button>
+            <button class="ai-style-chip" data-style="photorealistic, 8K">Photo</button>
+            <button class="ai-style-chip" data-style="watercolor painting">Watercolor</button>
+            <button class="ai-style-chip" data-style="digital art, vibrant">Digital Art</button>
+          </div>
+          <button class="pill-btn pill-primary w-full" id="generateAiBtn" onclick="generateImageAI()" style="margin-top:1rem">
+            <i class="fas fa-wand-magic-sparkles"></i> Generate Image
+          </button>
+        </div>
+
+        <div class="panel-body" id="layers-panel" style="display:none">
+          <div id="layersContainer">
+            <div class="empty-layers"><i class="fas fa-layer-group"></i><p>No layers yet</p></div>
+          </div>
+        </div>
+
+      </div>
+
+      <main class="canvas-area" id="canvasArea">
+
+        <div class="canvas-toolbar" id="canvasToolbar">
+          <div class="zoom-pill">
+            <button class="ztb" onclick="zoomOut()"><i class="fas fa-minus"></i></button>
+            <button class="zoom-label" onclick="fitToScreen()" id="zoomLevel">50%</button>
+            <button class="ztb" onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+          </div>
+          <button class="ctb" onclick="fitToScreen()" title="Fit to screen"><i class="fas fa-expand-arrows-alt"></i></button>
+          <div class="ctb-divider"></div>
+          <div class="bg-color-pill">
+            <div class="bg-color-swatch"><input type="color" id="bgColorQuick" value="#ffffff" oninput="state.backgroundColor=this.value;document.getElementById('bgColorInput').value=this.value;render()" title="Background color"></div>
+            <span class="bg-color-label">BG</span>
+          </div>
+        </div>
+
+        <div class="float-toolbar" id="floatToolbar">
+          <button class="ftb" onclick="duplicateObject()" title="Duplicate"><i class="fas fa-copy"></i></button>
+          <button class="ftb" onclick="layerAction('forward')" title="Forward"><i class="fas fa-angle-up"></i></button>
+          <button class="ftb" onclick="layerAction('backward')" title="Backward"><i class="fas fa-angle-down"></i></button>
+          <div class="ftb-divider"></div>
+          <button class="ftb ftb-danger" onclick="deleteSelected()" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+
+        <div class="canvas-scroll" id="scrollContainer">
+          <div class="canvas-wrapper" id="canvasWrapper">
+            <canvas id="mainCanvas" width="1280" height="720"></canvas>
+            <div class="text-editor-overlay" id="textEditor" contenteditable="true" spellcheck="false"></div>
+            <div class="transform-controls" id="transformControls">
+              <div class="transform-handle handle-nw" data-handle="nw"></div>
+              <div class="transform-handle handle-ne" data-handle="ne"></div>
+              <div class="transform-handle handle-sw" data-handle="sw"></div>
+              <div class="transform-handle handle-se" data-handle="se"></div>
+              <div class="rotate-handle" id="rotateHandle"><i class="fas fa-sync-alt"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="draw-cursor" id="drawCursor"></div>
+      </main>
+
+    </div>
+  </div>
+
+  <div id="contextMenu" class="ctx-menu">
+    <div class="ctx-item" onclick="layerAction('front')"><i class="fas fa-angle-double-up"></i> Bring to Front<span class="ctx-kbd">⇧⌘]</span></div>
+    <div class="ctx-item" onclick="layerAction('forward')"><i class="fas fa-angle-up"></i> Bring Forward<span class="ctx-kbd">⌘]</span></div>
+    <div class="ctx-item" onclick="layerAction('backward')"><i class="fas fa-angle-down"></i> Send Backward<span class="ctx-kbd">⌘[</span></div>
+    <div class="ctx-item" onclick="layerAction('back')"><i class="fas fa-angle-double-down"></i> Send to Back<span class="ctx-kbd">⇧⌘[</span></div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" onclick="duplicateObject()"><i class="fas fa-copy"></i> Duplicate<span class="ctx-kbd">⌘D</span></div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item ctx-danger" onclick="deleteSelected()"><i class="fas fa-trash"></i> Delete<span class="ctx-kbd">⌫</span></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
