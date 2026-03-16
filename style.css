@@ -1121,5 +1121,18 @@ input, select, textarea { font-family: inherit; }
   height: 40px;
   border-radius: 5px;
   object-fit: contain;
-  
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* fallback for modern browsers */
+  padding-bottom: env(safe-area-inset-bottom); /* <- adds padding for phone buttons */
+  box-sizing: border-box;
+}
+.bottom-toolbar {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom, 10px); /* fallback if env not supported */
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
